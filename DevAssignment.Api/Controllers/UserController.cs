@@ -24,5 +24,12 @@ namespace DevAssignment.Api.Controllers
         {
             return await _UserService.RegisterUser(registerUser);
         }
+
+        [AllowAnonymous]
+        [HttpGet("{email}/isEmailExist")]
+        public async Task<Response> IsEmailExist([FromRoute] string email)
+        {
+            return await _UserService.FindUserByEmailAsync(email);
+        }
     }
 }

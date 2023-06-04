@@ -5,5 +5,6 @@ namespace DevAssignment.RepositoryLayer.Repositories
     public interface IUserRepository 
     {
         Task<bool> RegisterUser(User model, string password);
+        Task<bool> IsExistingUser(string email);
     }
 }

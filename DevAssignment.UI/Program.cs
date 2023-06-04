@@ -1,11 +1,16 @@
-using DevAssignment.UI;
-using Microsoft.AspNetCore.Components.Web;
+using DevAssignment.UI.Extensions;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using System.Globalization;
 
-var builder = WebAssemblyHostBuilder.CreateDefault(args);
-builder.RootComponents.Add<App>("#app");
-builder.RootComponents.Add<HeadOutlet>("head::after");
+var builder = WebAssemblyHostBuilder
+    .CreateDefault(args)
+    .AddRootComponents()
+    .AddClientServices();
 
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+builder.Build();
+
+var culture = new CultureInfo("en-US");
+CultureInfo.DefaultThreadCurrentCulture = culture;
+CultureInfo.DefaultThreadCurrentUICulture = culture;
 
 await builder.Build().RunAsync();

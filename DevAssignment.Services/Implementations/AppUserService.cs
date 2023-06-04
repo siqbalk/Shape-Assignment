@@ -5,6 +5,7 @@ using DevAssignment.ServiceLayer.Services;
 using EntityLayer.DbContext.Entities;
 using FluentValidation;
 using System.Net;
+using System.Text.RegularExpressions;
 
 namespace DevAssignment.ServiceLayer.Implementations
 {
@@ -12,6 +13,7 @@ namespace DevAssignment.ServiceLayer.Implementations
     {
         private readonly IValidator<RegisterUserDto> _validator;
         private readonly IUserRepository _UserRepository;
+        private const string EMAIL_PATTERN = @"^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$";
 
         public UserService(IValidator<RegisterUserDto> validator, IUserRepository UserRepository)
         {
@@ -45,6 +47,27 @@ namespace DevAssignment.ServiceLayer.Implementations
                 return new Response(HttpStatusCode.BadRequest, "User registration failed. Please try again.");
 
             return new Response(HttpStatusCode.Created, "The user has been registered successfully.");
+        }
+
+        public async Task<Response> FindUserByEmailAsync(string email)
+        {
+
+            if (string.IsNullOrEmpty(email))
+            {
+                return new Response(HttpStatusCode.BadRequest, "The email cannot be empty");
+            }
+
+            if(!Regex.IsMatch(email, EMAIL_PATTERN))
+            {
+                return new Response(HttpStatusCode.BadRequest, "Invalid Email Provided");
+            }
+
+            var IsUserExist = await _UserRepository.IsExistingUser(email);
+
+            if(IsUserExist)
+                return new Response(HttpStatusCode.Conflict, "Email already exists. Please choose a different email.");
+
+            return new Response(HttpStatusCode.OK, string.Empty);
         }
     }
 
