@@ -33,6 +33,11 @@ namespace DevAssignment.ServiceLayer.Implementations
                 }).ToList());
             }
 
+            if(await IsUserExistAsync(registerUser.Email))
+            {
+                return new Response(HttpStatusCode.Conflict, "Email already exists. Please choose a different email!.");
+            }
+
             var User = new User()
             {
                 FirstName = registerUser.FirstName,
@@ -49,7 +54,7 @@ namespace DevAssignment.ServiceLayer.Implementations
             return new Response(HttpStatusCode.Created, "The user has been registered successfully.");
         }
 
-        public async Task<bool> FindUserByEmailAsync(string email)
+        public async Task<bool> IsUserExistAsync(string email)
         {
             var IsUserExist = await _UserRepository.IsExistingUser(email);
 

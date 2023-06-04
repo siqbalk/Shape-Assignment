@@ -6,6 +6,6 @@ namespace DevAssignment.ServiceLayer.Services
     public interface IUserService
     {
         Task<Response> RegisterUser(RegisterUserDto registerUser);
-        Task<bool> FindUserByEmailAsync(string email);
+        Task<bool> IsUserExistAsync(string email);
     }
 }

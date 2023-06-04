@@ -1,6 +1,6 @@
-﻿using DevAssignment.UI.Models.User;
+﻿using DevAssignment.UI.Common.Validators;
+using DevAssignment.UI.Models.User;
 using MudBlazor;
-using System.Net;
 using System.Text.RegularExpressions;
 
 namespace DevAssignment.UI.Pages.User;
@@ -18,22 +18,20 @@ public partial class RegisterUser
 
     private IEnumerable<string> PasswordStrength(string password)
     {
-        if (string.IsNullOrWhiteSpace(password))
-        {
-            yield return "Password is required!";
-            yield break;
-        }
-        if (password.Length < 8)
-            yield return "Password must be at least of length 8";
-        if (!Regex.IsMatch(password, @"[A-Z]"))
-            yield return "Password must contain at least one capital letter";
-        if (!Regex.IsMatch(password, @"[a-z]"))
-            yield return "Password must contain at least one lowercase letter";
-        if (!Regex.IsMatch(password, @"[0-9]"))
-            yield return "Password must contain at least one digit";
-        if (!Regex.IsMatch(password, @"[^A-Za-z0-9]"))
-            yield return "Password must contain at least one special character";
+        return RegisterUserValidator.PasswordValidation(password);
     }
+
+    private IEnumerable<string> FirstNameValidation(string firstName)
+    {
+
+        return RegisterUserValidator.FirstNameValidation(firstName);
+    }
+
+    private IEnumerable<string> LastNameValidation(string lastName)
+    {
+        return RegisterUserValidator.LastNameValidation(lastName);
+    }
+
 
     private async Task<IEnumerable<string>> EmailValidation(string email)
     {
@@ -59,28 +57,6 @@ public partial class RegisterUser
         return validationMessages;
     }
 
-    private IEnumerable<string> FirstNameValidation(string firstName)
-    {
-        if (string.IsNullOrWhiteSpace(firstName))
-        {
-            yield return "First Name is required!";
-            yield break;
-        }
-        if (firstName.Length > 12)
-            yield return "First name cannot exceed 12 characters";
-    }
-
-    private IEnumerable<string> LastNameValidation(string lastName)
-    {
-        if (string.IsNullOrWhiteSpace(lastName))
-        {
-            yield return "First Name is required!";
-            yield break;
-        }
-        if (lastName.Length > 16)
-            yield return "Last name cannot exceed 16 characters";
-    }
-
     private string PasswordMatch(string confirmPassword)
     {
 
@@ -89,13 +65,15 @@ public partial class RegisterUser
         return null;
     }
 
+
+
     [Obsolete]
     private async Task SubmitForm()
     {
-        _loaded = true;
         _ = form.Validate();
         if (form.IsValid)
         {
+            _loaded = true;
             var res = await _clientService.RegisterUserAsync(UserModel).ConfigureAwait(false);
 
             if (!res.IsSucceeded)
@@ -105,14 +83,14 @@ public partial class RegisterUser
             }
             _loaded = false;
             _snackBar.Add("The user has been registered successfully.", Severity.Success);
-             form.Reset();
+            form.Reset();
             UserModel = new RegisterUserModel();
         }
     }
 
     protected override async Task OnInitializedAsync()
     {
-       
+
         StateHasChanged();
     }
 }

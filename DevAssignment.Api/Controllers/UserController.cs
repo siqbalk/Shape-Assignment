@@ -29,7 +29,7 @@ namespace DevAssignment.Api.Controllers
         [HttpGet("{email}/isEmailExist")]
         public async Task<bool> IsEmailExist([FromRoute] string email)
         {
-            return await _UserService.FindUserByEmailAsync(email);
+            return await _UserService.IsUserExistAsync(email);
         }
     }
 }
