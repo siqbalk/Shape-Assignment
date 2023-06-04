@@ -84,15 +84,11 @@ public class ExchangeClientService
            : new ExchangeClientResponse<ResponseModel> { IsSucceeded = false }; ;
     }
 
-    public async Task<ExchangeClientResponse<ResponseModel>> IsEmailExistAsync(string email)
-    {
-        
-        var responseMessage = await GetAsync(string.Format(Routes.UserEndpoints.IsEmailExist, email)).ConfigureAwait(false);
-        var response = await ParseResponseAsync<ResponseModel>(responseMessage).ConfigureAwait(false);
+    public async Task<bool> IsEmailExistAsync(string email)
+    {     
+        var responseMessage = await GetAsync(string.Format(Routes.UserEndpoints.IsEmailExist, email)).ConfigureAwait(false);  
 
-        return responseMessage.IsSuccessStatusCode
-            ? new ExchangeClientResponse<ResponseModel> { IsSucceeded = true, Data = response }
-            : new ExchangeClientResponse<ResponseModel> { IsSucceeded = false };
+         return bool.Parse(await responseMessage.Content.ReadAsStringAsync());
     }
 
 }

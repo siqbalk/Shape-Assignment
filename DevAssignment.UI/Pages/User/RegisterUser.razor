@@ -4,24 +4,12 @@
 @using System.ComponentModel.DataAnnotations
 @using DevAssignment.UI.Models.User
 
-<style>
-    .center-grid {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-</style>
 
-<div class="center-grid">
-<MudGrid>
+<MudText style="margin-left:20rem" Typo="Typo.h5" Color="Color.Primary" Class="mb-2">Create Shape Account</MudText>
+
+<MudGrid style="margin-left: 19rem;">
     <MudItem xs="12" sm="7">
         <MudPaper Class="pa-4">
-@*            @if (_loaded)
-            {
-                <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
-            }
-            else
-            {*@
                 <MudForm @ref="form" @bind-IsValid="@success" @bind-Errors="@errors">
                     <div class="row">
                         <div class="col-md-6">
@@ -33,8 +21,9 @@
                                       Validation="@(new Func<string, IEnumerable<string>>(LastNameValidation))" @bind-Value="UserModel.LastName" />
                         </div>
                     </div>
-                    <MudTextField T="string" class="mt-2" Label="Email" Required="true" RequiredError="Email is required!" Variant="Variant.Outlined"
-                                  Validation="@(new Func<string, Task<IEnumerable<string>>>(EmailValidation))" @bind-Value="UserModel.Email" />
+                <MudTextField T="string" class="mt-2" Label="Email" Required="true" RequiredError="Email is required!" Variant="Variant.Outlined"
+                              Validation="@(new Func<string, Task<IEnumerable<string>>>(EmailValidation))" @bind-Value="UserModel.Email"> 
+                </MudTextField>
                     <MudTextField class="mt-2" T="string" Label="Password" HelperText="Choose a strong password" @ref="password"
                               InputType="InputType.Password" Variant="Variant.Outlined"
                               Validation="@(new Func<string, IEnumerable<string>>(PasswordStrength))" Required="true"
@@ -43,12 +32,16 @@
                               Label="Password" HelperText="Repeat the password" InputType="InputType.Password" Variant="Variant.Outlined"
                               RequiredError="Confirm Password cannot be empty" Validation="@(new Func<string, string>(PasswordMatch))" @bind-Value="UserModel.ConfirmPassword" />
                 </MudForm>
-           @* }*@
             
         </MudPaper>
         <MudPaper Class="pa-4 mt-4">
-            <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="SubmitForm">Register</MudButton>
+            <div style="display:flex; justify-content: space-between">
+                 <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="SubmitForm">Register</MudButton>
+                @if (_loaded)
+                {
+                    <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
+                }
+            </div>    
         </MudPaper>
     </MudItem>
 </MudGrid>
-</div>

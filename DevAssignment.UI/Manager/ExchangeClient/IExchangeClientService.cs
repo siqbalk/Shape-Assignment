@@ -9,6 +9,6 @@ public interface IExchangeClientService
     Task<HttpResponseMessage> PostAsync(string url, ByteArrayContent content = null);
     Task<T> ParseResponseAsync<T>(HttpResponseMessage httpResponseMessage) where T : new();
     Task<ExchangeClientResponse<ResponseModel>> RegisterUserAsync(RegisterUserModel registerUser);
-    Task<ExchangeClientResponse<ResponseModel>> IsEmailExistAsync(string email);
+    Task<bool> IsEmailExistAsync(string email);
 
 }

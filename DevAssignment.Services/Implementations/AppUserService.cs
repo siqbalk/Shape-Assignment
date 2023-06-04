@@ -49,25 +49,11 @@ namespace DevAssignment.ServiceLayer.Implementations
             return new Response(HttpStatusCode.Created, "The user has been registered successfully.");
         }
 
-        public async Task<Response> FindUserByEmailAsync(string email)
+        public async Task<bool> FindUserByEmailAsync(string email)
         {
-
-            if (string.IsNullOrEmpty(email))
-            {
-                return new Response(HttpStatusCode.BadRequest, "The email cannot be empty");
-            }
-
-            if(!Regex.IsMatch(email, EMAIL_PATTERN))
-            {
-                return new Response(HttpStatusCode.BadRequest, "Invalid Email Provided");
-            }
-
             var IsUserExist = await _UserRepository.IsExistingUser(email);
 
-            if(IsUserExist)
-                return new Response(HttpStatusCode.Conflict, "Email already exists. Please choose a different email.");
-
-            return new Response(HttpStatusCode.OK, string.Empty);
+            return IsUserExist? true :  false;
         }
     }
 

@@ -27,7 +27,7 @@ namespace DevAssignment.Api.Controllers
 
         [AllowAnonymous]
         [HttpGet("{email}/isEmailExist")]
-        public async Task<Response> IsEmailExist([FromRoute] string email)
+        public async Task<bool> IsEmailExist([FromRoute] string email)
         {
             return await _UserService.FindUserByEmailAsync(email);
         }

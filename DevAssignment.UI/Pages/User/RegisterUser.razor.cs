@@ -49,8 +49,8 @@ public partial class RegisterUser
         }
         else
         {
-            var res = await _clientService.IsEmailExistAsync(email).ConfigureAwait(false);
-            if (!res.IsSucceeded)
+            var isEmailExist = await _clientService.IsEmailExistAsync(email).ConfigureAwait(false);
+            if (isEmailExist)
             {
                 validationMessages.Add("Email already exists. Please choose a different email!");
             }
@@ -103,8 +103,8 @@ public partial class RegisterUser
                 _snackBar.Add("Something went wrong, Try again in a while", Severity.Error);
                 return;
             }
-            _loaded = true;
-            _snackBar.Add("Document Type Successfully Added", Severity.Success);
+            _loaded = false;
+            _snackBar.Add("The user has been registered successfully.", Severity.Success);
              form.Reset();
             UserModel = new RegisterUserModel();
         }
