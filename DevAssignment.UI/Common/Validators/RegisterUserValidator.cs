@@ -38,7 +38,7 @@ namespace DevAssignment.UI.Common.Validators
         {
             if (string.IsNullOrWhiteSpace(lastName))
             {
-                yield return "First Name is required!";
+                yield return "Last name is required!";
                 yield break;
             }
             if (lastName.Length > 16)
