@@ -65,12 +65,9 @@ public partial class RegisterUser
         return null;
     }
 
-
-
-    [Obsolete]
     private async Task SubmitForm()
     {
-        _ = form.Validate();
+        await form.Validate();
         if (form.IsValid)
         {
             _loaded = true;

@@ -29,7 +29,7 @@
                               Validation="@(new Func<string, IEnumerable<string>>(PasswordStrength))" Required="true"
                               RequiredError="Password cannot be empty" @bind-Value="UserModel.Password" />
                     <MudTextField class="mt-2" T="string"
-                              Label="Password" HelperText="Repeat the password" InputType="InputType.Password" Variant="Variant.Outlined"
+                              Label="Confirm Password" HelperText="Repeat the password" InputType="InputType.Password" Variant="Variant.Outlined"
                               RequiredError="Confirm Password cannot be empty" Validation="@(new Func<string, string>(PasswordMatch))" @bind-Value="UserModel.ConfirmPassword" />
                 </MudForm>
             
